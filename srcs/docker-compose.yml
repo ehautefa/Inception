@@ -10,3 +10,5 @@ services:
       MYSQL_USER: ehautefa
       MYSQL_PASSWORD: pass2
     restart: always
+
+    
