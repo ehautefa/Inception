@@ -10,29 +10,3 @@ services:
       MYSQL_USER: ehautefa
       MYSQL_PASSWORD: pass2
     restart: always
-  wordpress:
-    build: ./requirements/wordpress
-    volumes:
-      - ./home/ehautefa/data/wordpress:/var/www/html
-    depends_on:
-      - mysql
-    environment: 
-      WORDPRESS_DB_HOST: mysql
-      MYSQL_ROOT_PASSWORD: pass
-      WORDPRESS_DB_NAME: wordpress
-      WORDPRESS_DB_USER: ehautefa
-      WORDPRESS_DB_PASSWORD: pass2
-      WORDPRESS_TABLE_PREFIX: wp_
-    links:
-      - mysql
-    restart: always
-  nginx:
-    build: ./requirements/nginx
-    volumes:
-      - ./home/ehautefa/data/wordpress:/var/www/html
-    ports:
-      - 8080:80
-    links:
-      - wordpress
-
-    
