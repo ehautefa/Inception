@@ -1,0 +1,4 @@
+./srcs/.env
+.git
+./srcs/docker-compose.yml
+.dockerignore

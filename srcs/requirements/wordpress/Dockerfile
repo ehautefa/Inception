@@ -9,21 +9,15 @@ RUN apt update -y \
  
 EXPOSE 9000
 
-# config nginx
-# RUN mkdir /var/www/html \
-# 	&& chown -R $USER:$USER /var/www/html
-# COPY ./conf/nginx.conf /etc/nginx/sites-available/0wordpress
-# RUN ln -s /etc/nginx/sites-available/0wordpress /etc/nginx/sites-enabled/
-
 #install wp-cli
 COPY ./tools/wp-cli.phar /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp
 
 #Add wordpress
-ADD ./tools/wordpress-5.7.2-fr_FR.tar.gz ./tmp/wordpress
+ADD ./tools/wordpress-5.7.2-fr_FR.tar.gz ./tmp
 # ADD ./tools/wordpress.sql ./tmp/wordpress.sql
 
-#create sql database
+# create sql database
 ADD ./tools/create_database.sh /usr/local/bin/create_database.sh
 RUN chmod 755 /usr/local/bin/create_database.sh
 
