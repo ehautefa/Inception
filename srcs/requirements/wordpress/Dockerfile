@@ -2,10 +2,9 @@ FROM debian:buster
 
 LABEL maintainer="ehautefa@student.42.fr"
 
-RUN apt update -y \
-    && apt upgrade -y \
-	&& apt install -y php-fpm \
-    && apt clean -y
+RUN apt update -q -y \
+	&& apt install -q -y php-fpm \
+    && apt autoclean -q -y
  
 EXPOSE 9000
 

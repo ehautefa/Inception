@@ -11,7 +11,7 @@ services:
       MYSQL_DATABASE: wordpress
     networks:
       - app-network
-  wordpress :
+  wordpress:
     depends_on: 
       - mysql
     build: ./requirements/wordpress

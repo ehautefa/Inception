@@ -2,9 +2,12 @@ FROM debian:buster
 
 LABEL maintainer="ehautefa@student.42.fr"
 
-RUN 	apt update -y \
-		&& apt install -y mariadb-server \
-		&& apt clean -y
+RUN 	apt update -q -y \
+		&& apt install -q -y mariadb-server mariadb-client \
+		&& apt autoclean -q -y
+
+COPY tools/wordpress.sql /
+COPY tools/50-server.cnf etc/mysql/mariadb.conf.d/
 
 EXPOSE 3306
 
