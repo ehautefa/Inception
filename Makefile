@@ -5,10 +5,11 @@ before:
 	docker-compose run --no-deps --rm application composer install
 
 start:
-	docker-compose up -d
+	cd srcs && docker-compose build
+	cd srcs && docker-compose up
 
 stop:
-	docker-compose down
+	cd srcs && docker-compose down --rmi all
 
 .PHONY: before start stop
 

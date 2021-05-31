@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: wordpress
     networks:
       - app-network
+    stdin_open: true
+    tty: true 
   wordpress:
     depends_on: 
       - mysql
@@ -37,7 +39,7 @@ services:
       - "80:80"
     volumes:
       - ./home/ehautefa/data/wordpress:/var/www/html
-      - ./requirements/nginx/conf/:/etc/nginx/conf.d
+      - ./requirements/nginx/conf/conf.d:/etc/nginx/conf.d
     networks:
       - app-network
 

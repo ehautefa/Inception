@@ -1,15 +1,17 @@
-FROM debian:buster
+FROM alpine:3.12
 
 LABEL maintainer="ehautefa@student.42.fr"
 
-RUN 	apt update -q -y \
-		&& apt install -q -y nginx \
-		&& apt autoclean -q -y
-
+RUN apk add --no-cache \
+	nginx
+ 
 EXPOSE 80
 
-# COPY ./conf/nginx.conf /etc/nginx/sites-available/0wordpress
+RUN mkdir /run/nginx
+
+COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+
 # RUN ln -s /etc/nginx/sites-available/0wordpress /etc/nginx/sites-enabled/
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
