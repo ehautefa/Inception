@@ -9,13 +9,13 @@ RUN apk add --no-cache \
 
 EXPOSE 3306
 
-COPY tools/wordpress.sql .
+COPY tools/wordpress.sql /tmp/
 RUN chown -R mysql /var/lib/mysql
 RUN mkdir var/log/mysql
 RUN touch /var/log/mysql/mariadb.err
 
 COPY conf/mariadb.cnf etc/my.cnf.d/mariadb-server.cnf
-COPY tools/mysql.server /etc/init.d/
+# COPY tools/mysql.server /etc/init.d/
 COPY conf/my.cnf etc/my.cnf
 
 COPY ./tools/run.sh /usr/local/bin/run.sh

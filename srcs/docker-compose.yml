@@ -6,7 +6,7 @@ services:
     restart: always
     env_file: .env
     # volumes:
-    #     - ./home/ehautefa/data/mysql:/var/lib/mysql
+    #     - /home/ehautefa/data/mysql:/var/lib/mysql
     environment: 
       MYSQL_DATABASE: wordpress
     ports:
@@ -26,7 +26,7 @@ services:
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - ./home/ehautefa/data/wordpress:/var/www/html
+      - ~/home/ehautefa/data/wordpress:/var/www/html
     links:
       - mysql
     networks: 
@@ -38,16 +38,12 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./home/ehautefa/data/wordpress:/var/www/html
-      - ./requirements/nginx/conf/conf.d:/etc/nginx/conf.d
+      - ~/home/ehautefa/data/wordpress:/var/www/html
+      - /requirements/nginx/conf/conf.d:/etc/nginx/conf.d
     networks:
       - app-network
     links:
       - wordpress
-
-volumes:
-  wordpress:
-  dbdata:
 
 networks:
   app-network:
