@@ -11,7 +11,12 @@ start:
 stop:
 	cd srcs && docker-compose down --rmi all
 
-.PHONY: before start stop
+restart:
+	cd srcs && docker-compose down --rmi all
+	cd srcs && docker-compose build
+	cd srcs && docker-compose up
+
+.PHONY: restart before start stop
 
 # https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
 # https://write.vanoix.com/emeric/makefile-et-docker-en-dev
