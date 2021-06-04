@@ -15,7 +15,8 @@ RUN apk add --no-cache \
 	php-soap	\
 	php-xml		\
 	php-xmlrpc	\
-	php-zip
+	php-zip		\
+	mariadb
  
 EXPOSE 9000
 
@@ -27,12 +28,14 @@ COPY ./tools/wp-cli.phar /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp
 
 #Add wordpress
-ADD ./tools/wordpress-5.7.2-fr_FR.tar.gz ./tmp
-# ADD ./tools/wordpress.sql ./tmp/wordpress.sql
+RUN mkdir var/www/html \
+	&& cd var/www/html \
+	&& wp core download 
 
-# create sql database
-# ADD ./tools/create_database.sh /usr/local/bin/create_database.sh
-# RUN chmod 755 /usr/local/bin/create_database.sh
+# Add wp-config.php
+COPY ./conf/wp-config.php /var/www/html/wp-config.php
 
-# CMD ["./usr/local/bin/create_database.sh"]
-ENTRYPOINT ["php-fpm7", "-F"]
+ADD ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
+
+CMD ["./usr/local/bin/entrypoint.sh"]

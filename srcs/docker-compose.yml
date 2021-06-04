@@ -5,14 +5,10 @@ services:
     container_name: mariadb
     restart: always
     env_file: .env
-    # volumes:
-    #     - /home/ehautefa/data/mysql:/var/lib/mysql
+    volumes:
+        - db-data:/var/lib/mysql
     environment: 
       MYSQL_DATABASE: wordpress
-    ports:
-      - "3306:3306"
-    networks:
-      - app-network
   wordpress:
     depends_on: 
       - mysql
@@ -21,31 +17,24 @@ services:
     restart: unless-stopped
     env_file: .env
     environment: 
-      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_HOST=mysql:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - ~/home/ehautefa/data/wordpress:/var/www/html
-    links:
-      - mysql
-    networks: 
-      - app-network
+      - wp-data:/var/www/html
+      - db-data:/var/lib/mysql
   webserver:
+    depends_on: 
+      - wordpress
     build: ./requirements/nginx
     container_name: nginx
     restart: unless-stopped
     ports:
       - "80:80"
     volumes:
-      - ~/home/ehautefa/data/wordpress:/var/www/html
-      - /requirements/nginx/conf/conf.d:/etc/nginx/conf.d
-    networks:
-      - app-network
-    links:
-      - wordpress
+      - wp-data:/var/www/html
 
-networks:
-  app-network:
-    driver: bridge
-    
+volumes:
+  db-data:
+  wp-data:

@@ -10,6 +10,7 @@ EXPOSE 80
 RUN mkdir /run/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/conf.d /etc/nginx/conf.d
 
 # RUN ln -s /etc/nginx/sites-available/0wordpress /etc/nginx/sites-enabled/
 

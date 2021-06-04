@@ -12,6 +12,7 @@ EXPOSE 3306
 COPY tools/wordpress.sql /tmp/
 RUN chown -R mysql /var/lib/mysql
 RUN mkdir var/log/mysql
+RUN mkdir usr/local/bin/data
 RUN touch /var/log/mysql/mariadb.err
 
 COPY conf/mariadb.cnf etc/my.cnf.d/mariadb-server.cnf

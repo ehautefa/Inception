@@ -1,12 +1,11 @@
 #!/bin/sh
 mysqld_safe --datadir="/var/lib/mysql" &
-sleep 10
 echo ""
 ps
 echo ""
-while !(mysqladmin ping)
+while !(mysqladmin ping 2> /dev/null)
 do
-   sleep 5
+   sleep 3
    echo "waiting for mysql ..."
 done
 mysqladmin status
