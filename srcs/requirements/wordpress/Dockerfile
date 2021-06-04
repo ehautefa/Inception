@@ -38,4 +38,4 @@ COPY ./conf/wp-config.php /var/www/html/wp-config.php
 ADD ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 755 /usr/local/bin/entrypoint.sh
 
-CMD ["./usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["./usr/local/bin/entrypoint.sh"]

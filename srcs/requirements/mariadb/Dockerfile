@@ -19,7 +19,7 @@ COPY conf/mariadb.cnf etc/my.cnf.d/mariadb-server.cnf
 # COPY tools/mysql.server /etc/init.d/
 COPY conf/my.cnf etc/my.cnf
 
-COPY ./tools/run.sh /usr/local/bin/run.sh
-RUN chmod 755 /usr/local/bin/run.sh
+COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
 
-CMD ["/usr/local/bin/run.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
