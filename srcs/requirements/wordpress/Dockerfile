@@ -34,6 +34,7 @@ RUN mkdir var/www/html \
 
 # Add wp-config.php
 COPY ./conf/wp-config.php /var/www/html/wp-config.php
+RUN chmod 644 /var/www/html/wp-config.php
 
 ADD ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 755 /usr/local/bin/entrypoint.sh

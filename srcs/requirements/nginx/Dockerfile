@@ -12,7 +12,11 @@ RUN mkdir /run/nginx
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./conf/conf.d /etc/nginx/conf.d
 
+# config nginx
+# RUN chown -R nginx:nginx /var/www/html
+# COPY ./conf/conf.d/default.conf /etc/nginx/sites-available/
 # RUN ln -s /etc/nginx/sites-available/0wordpress /etc/nginx/sites-enabled/
 
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+
+CMD ["nginx", "-g", "daemon off;"]
 
