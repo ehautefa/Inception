@@ -10,6 +10,7 @@ start:
 
 stop:
 	cd srcs && docker-compose down --rmi all
+	docker volume prune -y
 
 restart:
 	cd srcs && docker-compose down --rmi all
