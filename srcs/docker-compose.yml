@@ -9,6 +9,9 @@ services:
         - db-data:/var/lib/mysql
     environment: 
       MYSQL_DATABASE: wordpress
+    networks:
+      - inception
+      
   wordpress:
     depends_on: 
       - mysql
@@ -24,6 +27,9 @@ services:
     volumes:
       - wp-data:/var/www/html
       - db-data:/var/lib/mysql
+    networks:
+      - inception
+
   webserver:
     depends_on: 
       - wordpress
@@ -34,7 +40,14 @@ services:
       - "80:80"
     volumes:
       - wp-data:/var/www/html
+    networks:
+      - inception
+
 
 volumes:
   db-data:
   wp-data:
+
+networks:
+  inception:
+    driver: bridge

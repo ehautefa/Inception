@@ -15,13 +15,13 @@ RUN apk add --no-cache \
 	php-soap	\
 	php-xml		\
 	php-xmlrpc	\
-	php-zip		\
-	mariadb
+	php-zip
  
 EXPOSE 9000
 
 COPY ./conf/php-fpm.conf /etc/php7/
 COPY ./conf/www.conf /var/www/
+COPY ./conf/www.conf /etc/php7/php-fpm.d/
 
 #install wp-cli
 COPY ./tools/wp-cli.phar /usr/local/bin/wp
