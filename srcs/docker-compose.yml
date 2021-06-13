@@ -13,11 +13,10 @@ services:
       MYSQL_DATABASE: wordpress
     networks:
       - inception
-
+      
   wordpress:
     depends_on: 
       - mysql
-    tty: true
     build:
       context: ./requirements/wordpress
     container_name: wordpress
@@ -29,11 +28,11 @@ services:
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - ./requirements/sources_wp:/srcs/
+      - wp-data:/var/www/html/
       - db-data:/var/lib/mysql/
     networks:
       - inception
-
+    
   webserver:
     depends_on: 
       - wordpress
@@ -43,15 +42,16 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
-      - ./requirements/sources_wp:/srcs/
+      - wp-data:/var/www/html/
     networks:
-      - inception
+      - inception     
 
 
 volumes:
   db-data:
+  wp-data:
 
 networks:
   inception:

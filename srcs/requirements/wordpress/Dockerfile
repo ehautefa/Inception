@@ -15,36 +15,32 @@ RUN apk add --no-cache \
 	php-soap	\
 	php-xml		\
 	php-xmlrpc	\
-	php-zip
+	php-zip		\
+	mariadb
  
 EXPOSE 9000
 
 RUN touch /var/log/php7/error.log
 COPY ./conf/php-fpm.conf /etc/php7/
-# COPY ./conf/www.conf /var/www/
 COPY ./conf/www.conf /etc/php7/php-fpm.d/
 
 #install wp-cli
 COPY ./tools/wp-cli.phar /usr/local/bin/wp
 RUN chmod +x /usr/local/bin/wp
 
-RUN mkdir /srcs/
-# RUN adduser -D -g 'www' www \
-# && chown -R www:www /srcs/ \
-# && chmod -R 744 /srcs/ 
-
 #Add wordpress
-# RUN mkdir  src\
-# 	&& cd var/www/html \
-# 	&& wp core download 
+RUN mkdir var/www
+RUN mkdir var/www/html \
+	&& cd var/www/html \
+	&& wp core download
 
-# # Add wp-config.php
-# COPY ./conf/wp-config.php /var/www/html/wp-config.php
-# RUN chmod 744 /var/www/html/wp-config.php
+COPY ./tools/index.html/ /var/www/html/
 
-CMD ["php-fpm7", "-F"]
+# Add wp-config.php
+COPY ./conf/wp-config.php /var/www/html/wp-config.php
+RUN chmod 644 /var/www/html/wp-config.php
 
-# ADD ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-# RUN chmod 755 /usr/local/bin/entrypoint.sh
+ADD ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod 755 /usr/local/bin/entrypoint.sh
 
-# ENTRYPOINT ["./usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["./usr/local/bin/entrypoint.sh"]
