@@ -7,6 +7,7 @@
 
 # this is only for the mysqld standalone daemon
 [mysqld]
+max_allowed_packet = 256M
 # skip-networking
 
 # Galera-related settings
