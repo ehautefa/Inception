@@ -16,10 +16,9 @@ RUN mkdir usr/local/bin/data
 RUN touch /var/log/mysql/mariadb.err
 
 COPY conf/mariadb.cnf etc/my.cnf.d/mariadb-server.cnf
-# COPY tools/mysql.server /etc/init.d/
 COPY conf/my.cnf etc/my.cnf
 
-COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod 755 /usr/local/bin/entrypoint.sh
+COPY ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["./entrypoint.sh"]

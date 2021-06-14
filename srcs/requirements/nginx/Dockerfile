@@ -7,23 +7,14 @@ RUN apk add --no-cache \
  
 EXPOSE 443
 
-RUN mkdir /run/nginx
+RUN mkdir /run/nginx \
+	&& chown nginx:nginx /run/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
+COPY ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
 
-# COPY ./conf/nginx.conf /etc/nginx/nginx.conf
-# COPY ./conf/conf.d /etc/nginx/conf.d
-
-# config nginx
-# RUN chown -R nginx:nginx /var/www/html
-# COPY ./conf/conf.d/default.conf /etc/nginx/sites-available/
-# RUN ln -s /etc/nginx/sites-available/0wordpress /etc/nginx/sites-enabled/
-
-COPY ./tools/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod 755 /usr/local/bin/entrypoint.sh
-
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
-
+ENTRYPOINT ["/entrypoint.sh"]
 # CMD ["nginx", "-g", "daemon off;"]
 
