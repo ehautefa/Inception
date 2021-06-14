@@ -10,11 +10,12 @@ EXPOSE 443
 RUN mkdir /run/nginx \
 	&& chown nginx:nginx /run/nginx
 
+COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 
 COPY ./tools/entrypoint.sh /entrypoint.sh
 RUN chmod 755 /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["sh", "entrypoint.sh"]
 # CMD ["nginx", "-g", "daemon off;"]
 

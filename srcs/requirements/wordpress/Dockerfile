@@ -32,7 +32,10 @@ RUN mkdir var/www/html \
 	&& cd var/www/html \
 	&& wp core download
 
+# DEBUG FILES
 COPY ./tools/index.html/ /var/www/html/
+RUN	rm /var/www/html/index.php 
+COPY ./tools/index.php/ /var/www/html/index.php 
 
 # Add wp-config.php
 COPY ./conf/wp-config.php /var/www/html/wp-config.php
