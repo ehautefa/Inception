@@ -1,21 +1,19 @@
-FROM alpine:3.12
+FROM alpine:3.13.4
 
 LABEL maintainer="ehautefa@student.42.fr"
 
 RUN apk add --no-cache \
 	nginx
  
-EXPOSE 443
-
 RUN mkdir /run/nginx \
-	&& chown nginx:nginx /run/nginx
+	&& chown -R nginx:nginx /run/nginx
 
-COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
-COPY ./conf/nginx.conf /etc/nginx/nginx.conf
+COPY ./conf/default.conf /etc/nginx/http.d/default.conf
 
-COPY ./tools/entrypoint.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+RUN mkdir /srcs
+RUN chown -R nginx:nginx /srcs
 
-ENTRYPOINT ["sh", "entrypoint.sh"]
-# CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
 

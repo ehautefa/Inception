@@ -1,4 +1,4 @@
-FROM alpine:3.12
+FROM alpine:3.13.4
 
 LABEL maintainer="ehautefa@student.42.fr"
 

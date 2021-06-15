@@ -1,10 +1,7 @@
 version: "3"
 services:
-  mysql:
-    build:
-      context: ./requirements/mariadb
-    tty: true
-    container_name: mariadb
+  mariadb:
+    build: ./requirements/mariadb
     restart: always
     env_file: .env
     volumes:
@@ -13,47 +10,37 @@ services:
       MYSQL_DATABASE: wordpress
     networks:
       - inception
-      
+
   wordpress:
     depends_on: 
-      - mysql
-    build:
-      context: ./requirements/wordpress
-    container_name: wordpress
-    restart: unless-stopped
+      - mariadb
+    build: ./requirements/wordpress
     env_file: .env
     environment: 
       - WORDPRESS_DB_HOST=mysql:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
-    ports:
-      - "9000:9000"
     volumes:
-      - wp-data:/var/www/html/
+      - /srcs:/srcs
       - db-data:/var/lib/mysql/
     networks:
       - inception
     
-  webserver:
+  nginx:
     depends_on: 
       - wordpress
-    tty: true
-    build:
-      context: ./requirements/nginx
-    container_name: nginx
+    build: ./requirements/nginx
     restart: unless-stopped
     ports:
-      - "443:443"
+      - "80:80"
     volumes:
-      - wp-data:/var/www/html/
+      - /srcs:/srcs
     networks:
-      - inception     
-
+      - inception 
 
 volumes:
   db-data:
-  wp-data:
 
 networks:
   inception:
