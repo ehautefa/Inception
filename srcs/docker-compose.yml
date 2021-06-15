@@ -22,7 +22,7 @@ services:
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
     volumes:
-      - /srcs:/srcs
+      - wp-data:/srcs
       - db-data:/var/lib/mysql/
     networks:
       - inception
@@ -35,12 +35,13 @@ services:
     ports:
       - "80:80"
     volumes:
-      - /srcs:/srcs
+      - wp-data:/srcs
     networks:
       - inception 
 
 volumes:
   db-data:
+  wp-data:
 
 networks:
   inception:

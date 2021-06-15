@@ -4,7 +4,12 @@ LABEL maintainer="ehautefa@student.42.fr"
 
 RUN apk add --no-cache	\
 	php					\
-	php-fpm
+	php-fpm				\
+	php-phar			\
+	php-json			\
+	php-mysqli			\
+	php-curl			\
+	php-iconv
 
 EXPOSE 9000
 
@@ -15,10 +20,21 @@ RUN mkdir /var/log/php-fpm && touch /var/log/php-fpm/error.log
 COPY ./conf/php-fpm.conf /etc/php7/php-fpm.conf
 COPY ./conf/www.conf /etc/php7/php-fpm.d/www.conf
 
-# DEBUG FILES
+#install wp-cli
+COPY ./tools/wp-cli.phar /usr/local/bin/wp
+RUN chmod +x /usr/local/bin/wp
+
+#volume
 RUN mkdir /srcs
-
 RUN chown -R nginx:nginx /srcs
-COPY ./tools/index.php /srcs/index.php
+RUN chmod -R 755 /srcs
+RUN wp core download --path="/srcs/"
 
-ENTRYPOINT ["php-fpm7", "-F"]
+#wp-config.php
+COPY ./conf/wp-config.php /srcs/wp-config.php
+RUN chmod 644 /srcs/wp-config.php
+
+ADD ./tools/entrypoint.sh /entrypoint.sh
+RUN chmod 755 /entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
