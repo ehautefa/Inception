@@ -1,23 +1,24 @@
-before:
-	sudo mkdir -p ~/ehautefa
-	sudo mkdir -p ~/ehautefa/data
-	docker-compose build
-	docker-compose run --no-deps --rm application composer install
+NAME = inception
 
-start:
+${NAME}:
+	mkdir -p /home/ehautefa/data/wordpress
+	mkdir -p /home/ehautefa/data/mysql
 	cd srcs && docker-compose build
 	cd srcs && docker-compose up
 
-stop:
-	cd srcs && docker-compose down --rmi all
-	docker volume prune
+all:	${NAME}
 
-restart:
+clean:
 	cd srcs && docker-compose down --rmi all
-	cd srcs && docker-compose build
-	cd srcs && docker-compose up
+	docker system prune --volumes
 
-.PHONY: restart before start stop
+fclean:	clean
+	sudo rm -rf /home/ehautefa/data/wordpress/*
+	sudo rm -rf /home/ehautefa/data/mysql/*
+
+re:		fclean all
+
+.PHONY: all fclean clean re
 
 # https://medium.com/swlh/wordpress-deployment-with-nginx-php-fpm-and-mariadb-using-docker-compose-55f59e5c1a
 # https://write.vanoix.com/emeric/makefile-et-docker-en-dev

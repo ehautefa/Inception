@@ -9,6 +9,7 @@ RUN apk add --no-cache	\
 	php-json			\
 	php-mysqli			\
 	php-curl			\
+	mariadb-client 		\
 	php-iconv
 
 EXPOSE 9000

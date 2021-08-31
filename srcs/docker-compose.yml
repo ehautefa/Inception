@@ -2,6 +2,7 @@ version: "3"
 services:
   mariadb:
     build: ./requirements/mariadb
+    container_name: mariadb
     restart: always
     env_file: .env
     volumes:
@@ -14,10 +15,11 @@ services:
   wordpress:
     depends_on: 
       - mariadb
+    container_name: wordpress
     build: ./requirements/wordpress
     env_file: .env
     environment: 
-      - WORDPRESS_DB_HOST=mysql:3306
+      - WORDPRESS_DB_HOST=mariadb:3306
       - WORDPRESS_DB_USER=$MYSQL_USER
       - WORDPRESS_DB_PASSWORD=$MYSQL_PASSWORD
       - WORDPRESS_DB_NAME=wordpress
@@ -31,6 +33,7 @@ services:
     depends_on: 
       - wordpress
     build: ./requirements/nginx
+    container_name: nginx
     restart: unless-stopped
     ports:
       - "443:443"
@@ -40,8 +43,18 @@ services:
       - inception 
 
 volumes:
-  db-data:
   wp-data:
+      driver: local
+      driver_opts:
+          type: 'none'
+          o: 'bind'
+          device: '${HOME}/data/wordpress'
+  db-data:
+      driver: local
+      driver_opts:
+          type: 'none'
+          o: 'bind'
+          device: '${HOME}/data/mysql'
 
 networks:
   inception:
